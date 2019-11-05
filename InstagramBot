@@ -1,0 +1,69 @@
+from selenium import webdriver
+import numpy as np
+import pandas as pd
+import time
+from selenium.webdriver.common.utils import Keys
+
+url="https://www.instagram.com/"
+driver=webdriver.Chrome(executable_path='C:\\Users\\Hp\\Desktop\\desktop\\chromedriver.exe')
+driver.get(url)
+
+#s=input("Create new account or login?  ")
+s='login'
+if(s == "login"):
+    login_url='https://www.instagram.com/accounts/login/?source=auth_switcher'
+    driver.get(login_url)
+time.sleep(3)
+email= driver.find_elements_by_css_selector('form input')[0]
+passw = driver.find_elements_by_css_selector('form input')[1]
+
+emailinp="bitsy_chuck"
+passinp="IawESOME11"
+
+email.send_keys(emailinp)
+passw.send_keys(passinp)
+
+passw.send_keys(Keys.ENTER)
+time.sleep(2)
+user_id = "therock"#input("enter the profile:  ")
+url=url+user_id+'/'
+print(url)
+
+driver.get(url)
+time.sleep(2)
+def getfollowers():
+    follower_button = driver.find_element_by_partial_link_text("followers")
+    follower_button.click()
+    print(follower_button)
+def unfollow():
+    follow_button= driver.find_element_by_css_selector("button")
+    print(follow_button.text)
+    follow_button.click()
+    if(follow_button.text == "Following"):
+        print("Already following")
+        unfollow_button=driver.find_element_by_xpath("//button[text() = 'Unfollow']")
+        unfollow_button.click()
+    print("unfollowed")
+def follow():
+    follow_button= driver.find_element_by_css_selector("button")
+    if(follow_button.text == "Following"):
+        print("Already following")
+        #driver.close()
+    else:
+        follow_button.click()
+    print("follow")
+while(True):
+    choice= 1# (int)(input("Press 1 to get list of followers, 2 to unfollow, 3 to follow:  "))
+    print(choice, "is the choice")
+    if(choice==1):
+        getfollowers()
+        break
+    elif(choice==2):
+        unfollow()
+    elif(choice==3):
+        follow()
+    else:
+        break
+
+
+#driver.close()
